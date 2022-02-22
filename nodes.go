@@ -1,6 +1,7 @@
 package hclencoder
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"reflect"
@@ -341,9 +342,10 @@ func tokenize(in reflect.Value, ident bool) (t token.Token, err error) {
 				Text: in.String(),
 			}, nil
 		}
+		bytes, _ := json.Marshal(in.String())
 		return token.Token{
 			Type: token.STRING,
-			Text: fmt.Sprintf(`"%s"`, in.String()),
+			Text: string(bytes),
 		}, nil
 	}
 
